@@ -63,12 +63,11 @@ exports.updateActorById = (actor_id, name, gender, DOB, Bio) => {
 
 exports.removeActorById = (actor_id) => {
   return new Promise(function (resolve, reject) {
-    sql.sequelize
-      .query("DELETE FROM actor WHERE actor_id = $actor_id", {
-        bind: {
+    sql.actor
+      .destroy({
+        where: {
           actor_id: actor_id,
         },
-        type: QueryTypes.DELETE,
       })
       .then((result) => resolve(result))
       .catch((err) => reject(err));

@@ -28,5 +28,6 @@ router
     ],
     actorController.updateActor
   )
+  .delete(actorController.removeActor);
 
 module.exports = router;

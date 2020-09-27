@@ -106,3 +106,24 @@ exports.getActorDetails = (req, res) => {
       res.status(500).json({ error: true, errmsg: "Internal server Error" });
     });
 };
+
+exports.removeActor = (req, res) => {
+  const actor_id = req.params.actor_id;
+
+  actorModel
+    .removeActorById(actor_id)
+    .then((result) => {
+      if (result === 0) {
+        res.status(400).json({ error: true, errmsg: "Invalid actorID given" });
+      } else {
+        res.send({
+          error: false,
+          message: `Actor with actor_id: ${actor_id} removed successfully`,
+        });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: true, errmsg: "Internal server Error" });
+    });
+};

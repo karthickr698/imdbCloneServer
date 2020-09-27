@@ -1,13 +1,13 @@
 const { validationResult } = require("express-validator");
 
-const actorModel = require("../model/actorModel");
+const producerModel = require("../model/producerModel ");
 const genderTypes = require("../utils/genderEnum");
 
-exports.getAllActors = (req, res) => {
-  actorModel
-    .getAllActors()
+exports.getAllProducers = (req, res) => {
+  producerModel
+    .getAllProducers()
     .then((result) =>
-      res.send({ error: false, totalActors: result.length, result: result })
+      res.send({ error: false, totalProducers: result.length, result: result })
     )
     .catch((err) => {
       console.error(err);
@@ -15,7 +15,7 @@ exports.getAllActors = (req, res) => {
     });
 };
 
-exports.addActor = (req, res) => {
+exports.addProducer = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -36,8 +36,8 @@ exports.addActor = (req, res) => {
   const DOB = req.body.DOB;
   const Bio = req.body.Bio;
 
-  actorModel
-    .addActor(name, gender, DOB, Bio)
+  producerModel
+    .addProducer(name, gender, DOB, Bio)
     .then((result) => res.send({ error: false, result: result }))
     .catch((err) => {
       console.error(err);
@@ -45,7 +45,7 @@ exports.addActor = (req, res) => {
     });
 };
 
-exports.updateActor = (req, res) => {
+exports.updateProducer = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -66,19 +66,19 @@ exports.updateActor = (req, res) => {
   const DOB = req.body.DOB;
   const Bio = req.body.Bio;
 
-  const actor_id = req.params.actor_id;
+  const producer_id = req.params.producer_id;
 
-  actorModel
-    .updateActorById(actor_id, name, gender, DOB, Bio)
+  producerModel
+    .updateProducerById(producer_id, name, gender, DOB, Bio)
     .then(async (result) => {
       if (result[0] === 0) {
-        res.status(400).json({ error: true, errmsg: "Invalid actorID given" });
+        res.status(400).json({ error: true, errmsg: "Invalid producerID given" });
       } else {
-        const actorDetails = await actorModel.getActorById(actor_id);
+        const producerDetails = await producerModel.getProducerById(producer_id);
         res.send({
           error: false,
-          result: actorDetails[0],
-          message: "actor updated successfully",
+          result: producerDetails[0],
+          message: "producer updated successfully",
         });
       }
     })
@@ -88,14 +88,14 @@ exports.updateActor = (req, res) => {
     });
 };
 
-exports.getActorDetails = (req, res) => {
-  const actor_id = req.params.actor_id;
+exports.getProducerDetails = (req, res) => {
+  const producer_id = req.params.producer_id;
 
-  actorModel
-    .getActorById(actor_id)
+  producerModel
+    .getProducerById(producer_id)
     .then((result) => {
       if (result.length === 0) {
-        res.status(400).json({ error: true, errmsg: "Invalid actorID given" });
+        res.status(400).json({ error: true, errmsg: "Invalid producerID given" });
       } else {
         res.send({
           error: false,
@@ -109,18 +109,18 @@ exports.getActorDetails = (req, res) => {
     });
 };
 
-exports.removeActor = (req, res) => {
-  const actor_id = req.params.actor_id;
+exports.removeProducer = (req, res) => {
+  const producer_id = req.params.producer_id;
 
-  actorModel
-    .removeActorById(actor_id)
+  producerModel
+    .removeProducerById(producer_id)
     .then((result) => {
       if (result === 0) {
-        res.status(400).json({ error: true, errmsg: "Invalid actorID given" });
+        res.status(400).json({ error: true, errmsg: "Invalid producerID given" });
       } else {
         res.send({
           error: false,
-          message: `Actor with actor_id: ${actor_id} removed successfully`,
+          message: `producer with producer_id: ${producer_id} removed successfully`,
         });
       }
     })

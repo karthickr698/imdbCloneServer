@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 
 const actorModel = require("../model/actorModel");
+const genderTypes = require("../utils/genderEnum");
 
 exports.getAllActors = (req, res) => {
   console.log("herer");
@@ -28,6 +29,7 @@ exports.addActor = (req, res) => {
         DOB: "12/12/2020",
         Bio: "testBio",
       },
+      genderTypes: genderTypes.inList,
     });
   }
   const name = req.body.name;
@@ -57,6 +59,7 @@ exports.updateActor = (req, res) => {
         DOB: "12/12/2020",
         Bio: "testBio",
       },
+      genderTypes: genderTypes.inList,
     });
   }
   const name = req.body.name;
